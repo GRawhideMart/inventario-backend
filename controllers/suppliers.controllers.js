@@ -1,32 +1,32 @@
 const connection = require("../db");
 
-let Rooms = {};
+let Suppliers = {};
 
-Rooms.getAll = () => {
+Suppliers.getAll = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM Rooms", (err, results) => {
+    connection.query("SELECT * FROM Suppliers", (err, results) => {
       if (err) return reject(err);
       return resolve(results);
     });
   });
 };
 
-Rooms.getOne = (id) => {
+Suppliers.getOne = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM Rooms WHERE id=?", [id], (err, results) => {
+    connection.query("SELECT * FROM Suppliers WHERE id=?", [id], (err, results) => {
       if (err) return reject(err);
       return resolve(results[0]);
     });
   });
 };
 
-Rooms.insertRoom = (
-  room
+Suppliers.insertSupplier = (
+  supplier, piva, cu, address, pec, phone
 ) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "INSERT INTO Rooms(name) VALUES (?);",
-      [room],
+      "INSERT INTO Suppliers(name,piva,cu,address,pec,phone) VALUES (?,?,?,?,?,?);",
+      [supplier, piva, cu, address, pec, phone],
       (err, results) => {
         if (err) return reject(err);
         return resolve(results[0]);
@@ -35,4 +35,4 @@ Rooms.insertRoom = (
   });
 };
 
-module.exports = Rooms;
+module.exports = Suppliers;
