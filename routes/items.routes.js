@@ -1,12 +1,13 @@
 const express = require("express");
-const db = require("../db");
+const Items = require('../controllers/items.controllers');
+
 const router = express.Router();
 
 router
   .route("/")
   .get(async (req, res, next) => {
     try {
-      let results = await db.all();
+      let results = await Items.getAll();
       res.json(results);
     } catch (e) {
       console.log(e);
@@ -23,7 +24,7 @@ router
       in_use: inUse,
     } = req.body;
     try {
-      let results = await db.insertItem(
+      let results = await Items.insertItem(
         room,
         supplier,
         name,
@@ -40,7 +41,7 @@ router
 
 router.route("/:id").get(async (req, res, next) => {
   try {
-    let results = await db.one(req.params.id);
+    let results = await Items.getOne(req.params.id);
     res.json(results);
   } catch (e) {
     console.log(e);
