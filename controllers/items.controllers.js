@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require("../db");
 
 let Items = {};
 
@@ -20,13 +20,24 @@ Items.getOne = (id) => {
   });
 };
 
-Items.insertItem = (room,supplier,name,invoiceNumber,purchaseDate,inUse) => {
-    return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO Items(room_id,supplier_id,name,invoice_number,purchase_date,in_use) VALUES (?,?,?,?,?,?);", [room,supplier,name,invoiceNumber,purchaseDate,inUse], (err, results) => {
+Items.insertItem = (
+  room,
+  supplier,
+  name,
+  invoiceNumber,
+  purchaseDate,
+  inUse
+) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "INSERT INTO Items(room_id,supplier_id,name,invoice_number,purchase_date,in_use) VALUES (?,?,?,?,?,?);",
+      [room, supplier, name, invoiceNumber, purchaseDate, inUse],
+      (err, results) => {
         if (err) return reject(err);
         return resolve(results[0]);
-      });
-    });
-  };
+      }
+    );
+  });
+};
 
-module.exports = Items
+module.exports = Items;
