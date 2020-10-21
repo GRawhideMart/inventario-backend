@@ -47,6 +47,29 @@ router.route("/:id").get(async (req, res, next) => {
     console.log(e);
     res.sendStatus(500);
   }
+}).put(async (req, res, next) => {
+  const {
+    room_id: room,
+    supplier_id: supplier,
+    name,
+    invoice_number: invoiceNumber,
+    purchase_date: purchaseDate,
+    in_use: inUse,
+  } = req.body;
+  try {
+    let results = await Items.editItem(
+      room,
+      supplier,
+      name,
+      invoiceNumber,
+      purchaseDate,
+      inUse
+    );
+    res.json(results);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
 });
 
 module.exports = router;

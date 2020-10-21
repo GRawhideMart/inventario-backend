@@ -7,6 +7,7 @@ const connection = mysql.createPool({
   database: "inventary",
   host: "localhost",
   port: "3306",
+  namedPlaceholders: true
 });
 
 module.exports = connection;
