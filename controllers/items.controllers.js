@@ -60,14 +60,7 @@ Items.insertItem = (
   });
 };
 
-Items.editItem = (
-  room,
-  supplier,
-  name,
-  invoiceNumber,
-  purchaseDate,
-  inUse
-) => {
+Items.edit = (room, supplier, name, invoiceNumber, purchaseDate, inUse) => {
   return new Promise((resolve, reject) => {
     connection.query(
       "UPDATE Items SET room_id = :room, supplier_id = :supplier, name = :name, invoice_number = :invoiceNumber, purchase_date = :purchaseDate, in_use = :inUse;",
@@ -79,5 +72,23 @@ Items.editItem = (
     );
   });
 };
+
+//function preparedOptionalUpdate(conn, table, config, data, cb) {
+//  let tmp = config
+//    .map((item) =>
+//      data[item.req] !== undefined ? { sql: item, data: data[item.req] } : null
+//    )
+//    .filter((item) => item !== null);
+//
+//  let payload = tmp.reduce(
+//    (acc, item) => ({ ...acc, [item.sql.query]: item.data }),
+//    {}
+//  );
+//  let query = tmp
+//    .map((item) => `${item.sql.query} = :${item.sql.query}`)
+//    .join(", ");
+//
+//  conn.query(`UPDATE ${table} SET ${query}`, payload, cb);
+//}
 
 module.exports = Items;

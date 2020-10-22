@@ -1,5 +1,5 @@
 const express = require("express");
-const Rooms = require('../controllers/rooms.controllers');
+const Rooms = require("../controllers/rooms.controllers");
 
 const router = express.Router();
 
@@ -15,13 +15,9 @@ router
     }
   })
   .post(async (req, res, next) => {
-    const {
-      name: room,
-    } = req.body;
+    const { name: room } = req.body;
     try {
-      let results = await Rooms.insertRoom(
-        room
-      );
+      let results = await Rooms.insertRoom(room);
       res.json(results);
     } catch (e) {
       console.log(e);
@@ -29,14 +25,26 @@ router
     }
   });
 
-router.route("/:id").get(async (req, res, next) => {
-  try {
-    let results = await Rooms.getOne(req.params.id);
-    res.json(results);
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
-  }
-});
+router
+  .route("/:id")
+  .get(async (req, res, next) => {
+    try {
+      let results = await Rooms.getOne(req.params.id);
+      res.json(results);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
+  })
+  .put(async (req, res, next) => {
+    const { name } = req.body;
+    try {
+      let results = await Rooms.edit(name);
+      res.json(results);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
+  });
 
 module.exports = router;

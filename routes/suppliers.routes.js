@@ -32,14 +32,26 @@ router
     }
   });
 
-router.route("/:id").get(async (req, res, next) => {
-  try {
-    let results = await Suppliers.getOne(req.params.id);
-    res.json(results);
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
-  }
-});
+router
+  .route("/:id")
+  .get(async (req, res, next) => {
+    try {
+      let results = await Suppliers.getOne(req.params.id);
+      res.json(results);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
+  })
+  .put(async (req, res, next) => {
+    const { name, piva, cu, address, pec, phone } = req.body;
+    try {
+      let results = await Suppliers.edit(name, piva, cu, address, pec, phone);
+      res.json(results);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
+  });
 
 module.exports = router;
