@@ -46,4 +46,26 @@ Rooms.edit = (room) => {
   });
 };
 
+Rooms.deleteAll = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("DELETE FROM Rooms;", (err, results) => {
+      if (err) return reject(err);
+      return resolve(results[0]);
+    });
+  });
+};
+
+Rooms.deleteOne = (id) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "DELETE FROM Rooms WHERE id= :id;",
+      { id },
+      (err, results) => {
+        if (err) return reject(err);
+        return resolve(results[0]);
+      }
+    );
+  });
+};
+
 module.exports = Rooms;

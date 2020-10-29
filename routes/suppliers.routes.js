@@ -30,7 +30,24 @@ router
       console.log(e);
       res.sendStatus(500);
     }
-  });
+  })
+  .put((req, res, next) => {
+    res.sendStatus(500)
+    res.json('Operation not supported on this endpoint')
+  })
+  .delete(async (req,res,next) => {
+    const consent = confirm('AVVERTIMENTO: questo cancellerà TUTTI gli oggetti nel tuo database.\nProcedi solo se sei sicuro.')
+    if(!consent) alert('Scelta saggia.');
+    if(consent) {
+      try {
+        let results = await Suppliers.deleteAll();
+        res.json(results);
+      } catch(e) {
+        console.log(e);
+        res.sendStatus(500);
+      }
+    }
+  });;
 
 router
   .route("/:id")
@@ -52,6 +69,25 @@ router
       console.log(e);
       res.sendStatus(500);
     }
+  }).put(async (req, res, next) => {
+    const { name } = req.body;
+    try {
+      let results = await Suppliers.edit(name);
+      res.json(results);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      let results = await Suppliers.deleteOne(req.params.id);
+      res.json(results);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
   });
+  ;
 
 module.exports = router;

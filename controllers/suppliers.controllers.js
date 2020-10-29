@@ -50,4 +50,27 @@ Suppliers.edit = (name, piva, cu, address, pec, phone, last_purchase) => {
   });
 };
 
+
+Suppliers.deleteAll = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("DELETE FROM Suppliers;", (err, results) => {
+      if (err) return reject(err);
+      return resolve(results[0]);
+    });
+  });
+};
+
+Suppliers.deleteOne = (id) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "DELETE FROM Suppliers WHERE id= :id;",
+      { id },
+      (err, results) => {
+        if (err) return reject(err);
+        return resolve(results[0]);
+      }
+    );
+  });
+};
+
 module.exports = Suppliers;

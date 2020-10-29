@@ -1,3 +1,4 @@
+const { connect } = require("../db");
 const connection = require("../db");
 
 let Items = {};
@@ -73,6 +74,28 @@ Items.edit = (room, supplier, name, invoiceNumber, purchaseDate, inUse) => {
   });
 };
 
+Items.deleteAll = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("DELETE FROM Items;", (err, results) => {
+      if (err) return reject(err);
+      return resolve(results[0]);
+    });
+  });
+};
+
+Items.deleteOne = (id) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "DELETE FROM Items WHERE id= :id;",
+      { id },
+      (err, results) => {
+        if (err) return reject(err);
+        return resolve(results[0]);
+      }
+    );
+  });
+};
+
 //function preparedOptionalUpdate(conn, table, config, data, cb) {
 //  let tmp = config
 //    .map((item) =>
@@ -90,5 +113,28 @@ Items.edit = (room, supplier, name, invoiceNumber, purchaseDate, inUse) => {
 //
 //  conn.query(`UPDATE ${table} SET ${query}`, payload, cb);
 //}
+
+//Items.edit = (room, supplier, name, invoiceNumber, purchaseDate, inUse) => {
+//  return new Promise((resolve, reject) => {
+//    connection.query(
+//      `UPDATE Items
+//      SET room_id = ?
+//      ${supplier ? ",supplier_id = ?" : ""}
+//      ${name ? ",name = ?" : ""}
+//      ${invoiceNumber ? ",invoice_number = ?" : ""}
+//      ${purchaseDate ? ",purchase_date = ?" : ""}
+//      ${inUse ? ",in_use = ?" : ""}
+//      WHERE room_id = ?
+//      ;`,
+//      [room, supplier, name, invoiceNumber, purchaseDate, inUse, room].filter(
+//        (elem) => elem
+//      ),
+//      (err, results) => {
+//        if (err) return reject(err);
+//        return resolve(results[0]);
+//      }
+//    );
+//  });
+//};
 
 module.exports = Items;
